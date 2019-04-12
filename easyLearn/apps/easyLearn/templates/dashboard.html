@@ -1,0 +1,43 @@
+{% extends 'baseLayout.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Welcome to easyLearn Trainings</h1>
+<img src="{% static 'easyLearnApp/mainPic.png' %}" width='800px' height='500px'>
+<p>
+    <b>EasyLearn </b>is your personal improving trainings platform that gives you access to:
+    <ul>
+        <li><b>Dedicated experts and coaches</b><br>100% confidential support via phone or video
+        </li>
+        <li><b>Meditation library</b><br>Enhance your focus, energy and mood, all while feeling more relaxed
+        </li>
+        <li><b>Evidence-based learning programs</b><br>Bite-sized lessons and exercises for your overall well-being
+        </li>
+    </ul>
+</p>
+</div>
+<hr>
+<div class='training-module'>
+    <h2>All our Trainings:</h2>
+    <div>
+        {% for training in trainings %}
+        <p>
+            <div class="trainingDetails">
+                <h5>{{ training.name }}</h5>
+                {% for status in trainingStatus %}
+                {% if training.id == status.training_id %}
+                <div id="part">{{status.status}}</div>
+                {% endif %}
+                {% endfor %}
+                <p>{{training.desc}}</p>
+                <a href="trainings/{{training.id}}"><img src="{{ training.image.url }}" width='200px' height='200px'></a><br><br>
+                <a href="trainings/{{training.id}}" id='a-nav'>Info</a>
+                <hr>
+            </div>
+        </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}

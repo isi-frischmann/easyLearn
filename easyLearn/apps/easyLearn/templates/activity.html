@@ -1,0 +1,35 @@
+
+{% extends 'baseLayout.html' %}
+
+
+{% block content %}
+
+        {% for training in trainings %}
+            {{training.section.id}}
+        {% endfor %}
+
+        {% for training in trainings %}
+            {% for section in sections %}
+                {% for action in actions %}
+                    <h1>{{action.name}}</h1><div id='part'>{{status}}</div><br>
+
+                    {{action.desc}}<br><br>
+
+                    {% if prevActivity == 0 %}
+                        <a href="/trainings/{{training.id}}/sections/{{section.id}}" id="a-nav">Back to the overview</a>
+                    {% else %}
+                        <a href="/trainings/{{training.id}}/sections/{{section.id}}/activities/{{prevActivity}}" id="a-nav">Back</a>
+                    {% endif %}
+
+                    {% if nextActivity %}
+                        <a href="/update/trainings/{{training.id}}/sections/{{section.id}}/activities/{{nextActivity}}" id="a-nav">Continue</a>
+                    {% else %}
+                        <a href="/completed/trainings/{{training.id}}/sections/{{section.id}}/activities/{{action.id}}" id="finish_activity">👍Finish Activity</a>
+                    {% endif %}
+                {% endfor %}
+            <hr>
+            <a href="/trainings" id="a-nav">Home</a>
+            <a href="/trainings/{{training.id}}/sections/{{section.id}}" id="a-nav">Back to sections overview</a>
+            {% endfor %}
+        {% endfor %}
+{% endblock %}

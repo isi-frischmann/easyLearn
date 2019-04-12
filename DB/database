@@ -1,0 +1,2452 @@
+--
+-- PostgreSQL database cluster dump
+--
+
+-- Started on 2019-03-20 18:59:50 PDT
+
+SET default_transaction_read_only = off;
+
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+
+--
+-- Roles
+--
+
+CREATE ROLE postgres;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION BYPASSRLS PASSWORD 'md589dfbb12d8996472a79232996ead4c0b';
+
+
+
+
+
+
+\connect template1
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
+
+-- Started on 2019-03-20 18:59:51 PDT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+-- Completed on 2019-03-20 18:59:51 PDT
+
+--
+-- PostgreSQL database dump complete
+--
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
+
+-- Started on 2019-03-20 18:59:51 PDT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 3423 (class 1262 OID 16393)
+-- Name: easyLearn; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE "easyLearn" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C' LC_CTYPE = 'C';
+
+
+ALTER DATABASE "easyLearn" OWNER TO postgres;
+
+\connect "easyLearn"
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 203 (class 1259 OID 16425)
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(80) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 16423)
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3424 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- TOC entry 205 (class 1259 OID 16435)
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 16433)
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3425 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- TOC entry 201 (class 1259 OID 16417)
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- TOC entry 200 (class 1259 OID 16415)
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3426 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- TOC entry 207 (class 1259 OID 16443)
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(30) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- TOC entry 209 (class 1259 OID 16453)
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- TOC entry 208 (class 1259 OID 16451)
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3427 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- TOC entry 206 (class 1259 OID 16441)
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3428 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 16461)
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- TOC entry 210 (class 1259 OID 16459)
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3429 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 16521)
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 16519)
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3430 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- TOC entry 199 (class 1259 OID 16407)
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- TOC entry 198 (class 1259 OID 16405)
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3431 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- TOC entry 197 (class 1259 OID 16396)
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- TOC entry 196 (class 1259 OID 16394)
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 3432 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- TOC entry 214 (class 1259 OID 16550)
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16694)
+-- Name: easyLearnApp_section; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearnApp_section" (
+);
+
+
+ALTER TABLE public."easyLearnApp_section" OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 16703)
+-- Name: easyLearnApp_training; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearnApp_training" (
+);
+
+
+ALTER TABLE public."easyLearnApp_training" OWNER TO postgres;
+
+--
+-- TOC entry 226 (class 1259 OID 17143)
+-- Name: easyLearn_activity; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_activity" (
+    id integer NOT NULL,
+    name character varying(60) NOT NULL,
+    "desc" text NOT NULL,
+    section_id integer NOT NULL,
+    "order" integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_activity" OWNER TO postgres;
+
+--
+-- TOC entry 234 (class 1259 OID 17257)
+-- Name: easyLearn_activityprogress; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_activityprogress" (
+    id integer NOT NULL,
+    status character varying(12) NOT NULL,
+    activity_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_activityprogress" OWNER TO postgres;
+
+--
+-- TOC entry 233 (class 1259 OID 17255)
+-- Name: easyLearn_activityprogress_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_activityprogress_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_activityprogress_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3433 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: easyLearn_activityprogress_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_activityprogress_id_seq" OWNED BY public."easyLearn_activityprogress".id;
+
+
+--
+-- TOC entry 218 (class 1259 OID 17032)
+-- Name: easyLearn_section; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_section" (
+    id integer NOT NULL,
+    name character varying(60) NOT NULL,
+    "desc" text NOT NULL,
+    image character varying(100) NOT NULL,
+    progress text NOT NULL,
+    "order" integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_section" OWNER TO postgres;
+
+--
+-- TOC entry 217 (class 1259 OID 17030)
+-- Name: easyLearn_section_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_section_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_section_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3434 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: easyLearn_section_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_section_id_seq" OWNED BY public."easyLearn_section".id;
+
+
+--
+-- TOC entry 225 (class 1259 OID 17141)
+-- Name: easyLearn_sectionactivity_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_sectionactivity_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_sectionactivity_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3435 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: easyLearn_sectionactivity_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_sectionactivity_id_seq" OWNED BY public."easyLearn_activity".id;
+
+
+--
+-- TOC entry 236 (class 1259 OID 17265)
+-- Name: easyLearn_sectionprogress; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_sectionprogress" (
+    id integer NOT NULL,
+    status character varying(12) NOT NULL,
+    section_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_sectionprogress" OWNER TO postgres;
+
+--
+-- TOC entry 235 (class 1259 OID 17263)
+-- Name: easyLearn_sectionprogress_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_sectionprogress_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_sectionprogress_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3436 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: easyLearn_sectionprogress_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_sectionprogress_id_seq" OWNED BY public."easyLearn_sectionprogress".id;
+
+
+--
+-- TOC entry 220 (class 1259 OID 17040)
+-- Name: easyLearn_training; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_training" (
+    id integer NOT NULL,
+    name character varying(60) NOT NULL,
+    "desc" text NOT NULL,
+    image character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_training" OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 17038)
+-- Name: easyLearn_training_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_training_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_training_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3437 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: easyLearn_training_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_training_id_seq" OWNED BY public."easyLearn_training".id;
+
+
+--
+-- TOC entry 222 (class 1259 OID 17063)
+-- Name: easyLearn_training_sections; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_training_sections" (
+    id integer NOT NULL,
+    training_id integer NOT NULL,
+    section_id integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_training_sections" OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 17061)
+-- Name: easyLearn_training_sections_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_training_sections_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_training_sections_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3438 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: easyLearn_training_sections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_training_sections_id_seq" OWNED BY public."easyLearn_training_sections".id;
+
+
+--
+-- TOC entry 232 (class 1259 OID 17223)
+-- Name: easyLearn_training_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_training_user" (
+    id integer NOT NULL,
+    training_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_training_user" OWNER TO postgres;
+
+--
+-- TOC entry 231 (class 1259 OID 17221)
+-- Name: easyLearn_training_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_training_user_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_training_user_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3439 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: easyLearn_training_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_training_user_id_seq" OWNED BY public."easyLearn_training_user".id;
+
+
+--
+-- TOC entry 224 (class 1259 OID 17093)
+-- Name: easyLearn_training_users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_training_users" (
+    id integer NOT NULL,
+    training_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_training_users" OWNER TO postgres;
+
+--
+-- TOC entry 223 (class 1259 OID 17091)
+-- Name: easyLearn_training_users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_training_users_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_training_users_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3440 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: easyLearn_training_users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_training_users_id_seq" OWNED BY public."easyLearn_training_users".id;
+
+
+--
+-- TOC entry 230 (class 1259 OID 17215)
+-- Name: easyLearn_trainingprogress; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_trainingprogress" (
+    id integer NOT NULL,
+    status character varying(12) NOT NULL,
+    training_id integer NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_trainingprogress" OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1259 OID 17213)
+-- Name: easyLearn_trainingprogress_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_trainingprogress_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_trainingprogress_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3441 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: easyLearn_trainingprogress_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_trainingprogress_id_seq" OWNED BY public."easyLearn_trainingprogress".id;
+
+
+--
+-- TOC entry 228 (class 1259 OID 17185)
+-- Name: easyLearn_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."easyLearn_user" (
+    id integer NOT NULL,
+    fname character varying(40) NOT NULL,
+    lname character varying(40) NOT NULL,
+    email character varying(40) NOT NULL,
+    password character varying(255) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public."easyLearn_user" OWNER TO postgres;
+
+--
+-- TOC entry 227 (class 1259 OID 17183)
+-- Name: easyLearn_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."easyLearn_user_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."easyLearn_user_id_seq" OWNER TO postgres;
+
+--
+-- TOC entry 3442 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: easyLearn_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."easyLearn_user_id_seq" OWNED BY public."easyLearn_user".id;
+
+
+--
+-- TOC entry 3132 (class 2604 OID 17346)
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- TOC entry 3133 (class 2604 OID 17347)
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 3131 (class 2604 OID 17348)
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- TOC entry 3134 (class 2604 OID 17349)
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- TOC entry 3135 (class 2604 OID 17350)
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- TOC entry 3136 (class 2604 OID 17351)
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- TOC entry 3137 (class 2604 OID 17352)
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- TOC entry 3130 (class 2604 OID 17353)
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- TOC entry 3129 (class 2604 OID 17354)
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- TOC entry 3143 (class 2604 OID 17355)
+-- Name: easyLearn_activity id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activity" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_sectionactivity_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3147 (class 2604 OID 17356)
+-- Name: easyLearn_activityprogress id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activityprogress" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_activityprogress_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3139 (class 2604 OID 17357)
+-- Name: easyLearn_section id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_section" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_section_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3148 (class 2604 OID 17358)
+-- Name: easyLearn_sectionprogress id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_sectionprogress" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_sectionprogress_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3140 (class 2604 OID 17362)
+-- Name: easyLearn_training id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_training_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3141 (class 2604 OID 17363)
+-- Name: easyLearn_training_sections id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_sections" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_training_sections_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3146 (class 2604 OID 17364)
+-- Name: easyLearn_training_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_user" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_training_user_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3142 (class 2604 OID 17365)
+-- Name: easyLearn_training_users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_users" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_training_users_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3145 (class 2604 OID 17366)
+-- Name: easyLearn_trainingprogress id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_trainingprogress" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_trainingprogress_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3144 (class 2604 OID 17367)
+-- Name: easyLearn_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_user" ALTER COLUMN id SET DEFAULT nextval('public."easyLearn_user_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3384 (class 0 OID 16425)
+-- Dependencies: 203
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3386 (class 0 OID 16435)
+-- Dependencies: 205
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3382 (class 0 OID 16417)
+-- Dependencies: 201
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can add group	2	add_group
+5	Can change group	2	change_group
+6	Can delete group	2	delete_group
+7	Can add permission	3	add_permission
+8	Can change permission	3	change_permission
+9	Can delete permission	3	delete_permission
+10	Can add user	4	add_user
+11	Can change user	4	change_user
+12	Can delete user	4	delete_user
+13	Can add content type	5	add_contenttype
+14	Can change content type	5	change_contenttype
+15	Can delete content type	5	delete_contenttype
+16	Can add session	6	add_session
+17	Can change session	6	change_session
+18	Can delete session	6	delete_session
+19	Can add training	7	add_training
+20	Can change training	7	change_training
+21	Can delete training	7	delete_training
+22	Can add sections	8	add_sections
+23	Can change sections	8	change_sections
+24	Can delete sections	8	delete_sections
+25	Can add section	8	add_section
+26	Can change section	8	change_section
+27	Can delete section	8	delete_section
+28	Can add section	9	add_section
+29	Can change section	9	change_section
+30	Can delete section	9	delete_section
+31	Can view section	9	view_section
+32	Can add training	10	add_training
+33	Can change training	10	change_training
+34	Can delete training	10	delete_training
+35	Can view training	10	view_training
+36	Can view log entry	1	view_logentry
+37	Can view permission	3	view_permission
+38	Can view group	2	view_group
+39	Can view user	4	view_user
+40	Can view content type	5	view_contenttype
+41	Can view session	6	view_session
+42	Can add user	11	add_user
+43	Can change user	11	change_user
+44	Can delete user	11	delete_user
+45	Can view user	11	view_user
+46	Can add status section	12	add_statussection
+47	Can change status section	12	change_statussection
+48	Can delete status section	12	delete_statussection
+49	Can view status section	12	view_statussection
+50	Can add status training	13	add_statustraining
+51	Can change status training	13	change_statustraining
+52	Can delete status training	13	delete_statustraining
+53	Can view status training	13	view_statustraining
+54	Can add status activity	14	add_statusactivity
+55	Can change status activity	14	change_statusactivity
+56	Can delete status activity	14	delete_statusactivity
+57	Can view status activity	14	view_statusactivity
+58	Can add activity	15	add_activity
+59	Can change activity	15	change_activity
+60	Can delete activity	15	delete_activity
+61	Can view activity	15	view_activity
+62	Can add training progress	16	add_trainingprogress
+63	Can change training progress	16	change_trainingprogress
+64	Can delete training progress	16	delete_trainingprogress
+65	Can view training progress	16	view_trainingprogress
+66	Can add activity progress	17	add_activityprogress
+67	Can change activity progress	17	change_activityprogress
+68	Can delete activity progress	17	delete_activityprogress
+69	Can view activity progress	17	view_activityprogress
+70	Can add section progress	18	add_sectionprogress
+71	Can change section progress	18	change_sectionprogress
+72	Can delete section progress	18	delete_sectionprogress
+73	Can view section progress	18	view_sectionprogress
+\.
+
+
+--
+-- TOC entry 3388 (class 0 OID 16443)
+-- Dependencies: 207
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+1	pbkdf2_sha256$36000$etlqWrHM3rlm$uqwyZjY+1bNTsvMAUM+5C8rgSxDFDK8Nv4JCO3Ua03w=	2019-03-16 09:51:50.321032-07	t	admin			admin@admin.com	t	t	2019-03-16 09:30:53.468641-07
+2	pbkdf2_sha256$120000$xWRGVuxchgfO$v63QpH3b8AA24OcjSFT94if/skdmkalLblGC/daJMIo=	2019-03-16 18:58:00.562819-07	t	easyLearn			modern@health.com	t	t	2019-03-16 18:57:40.137348-07
+\.
+
+
+--
+-- TOC entry 3390 (class 0 OID 16453)
+-- Dependencies: 209
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3392 (class 0 OID 16461)
+-- Dependencies: 211
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3394 (class 0 OID 16521)
+-- Dependencies: 213
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2019-03-16 18:58:14.328393-07	1	Section object (1)	1	[{"added": {}}]	9	2
+2	2019-03-16 18:58:24.377031-07	2	Section object (2)	1	[{"added": {}}]	9	2
+3	2019-03-16 18:58:29.494241-07	1	Training object (1)	1	[{"added": {}}]	10	2
+4	2019-03-17 11:15:42.531478-07	2	Section object (2)	2	[{"changed": {"fields": ["image"]}}]	9	2
+5	2019-03-17 11:39:07.141483-07	2	Training object (2)	1	[{"added": {}}]	10	2
+6	2019-03-17 11:40:52.951344-07	3	Training object (3)	1	[{"added": {}}]	10	2
+7	2019-03-17 21:26:37.982371-07	3	Training object (3)	2	[{"changed": {"fields": ["image", "sections"]}}]	10	2
+8	2019-03-17 21:26:51.01219-07	2	Training object (2)	2	[{"changed": {"fields": ["image", "sections"]}}]	10	2
+9	2019-03-17 21:27:05.54904-07	1	Training object (1)	2	[{"changed": {"fields": ["image"]}}]	10	2
+10	2019-03-17 23:03:26.74409-07	1	Activity object (1)	1	[{"added": {}}]	15	2
+11	2019-03-17 23:03:30.778315-07	1	Activity object (1)	2	[]	15	2
+12	2019-03-17 23:03:39.0041-07	2	Activity object (2)	1	[{"added": {}}]	15	2
+13	2019-03-17 23:03:45.104529-07	3	Activity object (3)	1	[{"added": {}}]	15	2
+14	2019-03-17 23:05:23.452397-07	3	StatusTraining object (3)	3		13	2
+15	2019-03-17 23:05:23.461324-07	2	StatusTraining object (2)	3		13	2
+16	2019-03-17 23:05:23.469165-07	1	StatusTraining object (1)	3		13	2
+17	2019-03-17 23:05:34.065842-07	2	StatusSection object (2)	3		12	2
+18	2019-03-17 23:05:34.073409-07	1	StatusSection object (1)	3		12	2
+19	2019-03-17 23:05:42.066895-07	1	StatusActivity object (1)	3		14	2
+20	2019-03-17 23:07:06.176162-07	2	StatusActivity object (2)	3		14	2
+21	2019-03-18 23:03:46.839799-07	3	Section object (3)	1	[{"added": {}}]	9	2
+22	2019-03-19 09:59:31.901183-07	4	Training object (4)	1	[{"added": {}}]	10	2
+23	2019-03-19 10:21:42.975136-07	4	Section object (4)	1	[{"added": {}}]	9	2
+24	2019-03-19 10:22:11.125023-07	5	Section object (5)	1	[{"added": {}}]	9	2
+25	2019-03-19 10:22:26.210461-07	6	Section object (6)	1	[{"added": {}}]	9	2
+26	2019-03-19 10:22:36.443707-07	7	Section object (7)	1	[{"added": {}}]	9	2
+27	2019-03-19 10:22:49.139946-07	8	Section object (8)	1	[{"added": {}}]	9	2
+28	2019-03-19 10:22:56.789451-07	9	Section object (9)	1	[{"added": {}}]	9	2
+29	2019-03-19 10:23:06.983634-07	10	Section object (10)	1	[{"added": {}}]	9	2
+30	2019-03-19 10:23:42.696438-07	3	Training object (3)	2	[{"changed": {"fields": ["name", "sections", "user"]}}]	10	2
+31	2019-03-19 10:25:35.334751-07	3	Training object (3)	2	[{"changed": {"fields": ["image"]}}]	10	2
+32	2019-03-19 10:35:49.764184-07	4	Training object (4)	2	[{"changed": {"fields": ["image"]}}]	10	2
+33	2019-03-19 10:39:57.393801-07	3	Training object (3)	2	[{"changed": {"fields": ["image"]}}]	10	2
+34	2019-03-19 10:42:49.278893-07	2	Training object (2)	2	[{"changed": {"fields": ["image", "sections", "user"]}}]	10	2
+35	2019-03-19 10:59:55.729539-07	1	Training object (1)	2	[{"changed": {"fields": ["user"]}}]	10	2
+36	2019-03-19 11:00:30.922775-07	1	Training object (1)	2	[{"changed": {"fields": ["image"]}}]	10	2
+37	2019-03-19 11:01:26.116509-07	4	Training object (4)	2	[{"changed": {"fields": ["sections"]}}]	10	2
+38	2019-03-19 11:22:27.516247-07	3	Training object (3)	2	[{"changed": {"fields": ["desc"]}}]	10	2
+39	2019-03-19 11:25:11.36933-07	2	Training object (2)	2	[{"changed": {"fields": ["desc", "sections"]}}]	10	2
+40	2019-03-19 11:29:00.575502-07	1	Training object (1)	2	[{"changed": {"fields": ["desc", "sections"]}}]	10	2
+41	2019-03-19 11:54:18.358886-07	6	Section object (6)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+42	2019-03-19 11:56:25.755993-07	9	Section object (9)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+43	2019-03-19 11:59:41.535338-07	1	Section object (1)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+44	2019-03-19 12:03:08.592499-07	1	Section object (1)	2	[]	9	2
+45	2019-03-19 12:05:00.640229-07	2	Section object (2)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+46	2019-03-19 12:08:27.723576-07	3	Section object (3)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+47	2019-03-19 12:16:31.709062-07	4	Section object (4)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+48	2019-03-19 12:16:50.620127-07	3	Section object (3)	2	[{"changed": {"fields": ["image"]}}]	9	2
+49	2019-03-19 12:19:01.673169-07	5	Section object (5)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+50	2019-03-19 12:24:25.642762-07	7	Section object (7)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+51	2019-03-19 12:28:22.030665-07	8	Section object (8)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+52	2019-03-19 12:30:12.089685-07	10	Section object (10)	2	[{"changed": {"fields": ["name", "desc", "image"]}}]	9	2
+53	2019-03-19 12:31:47.749287-07	1	Training object (1)	2	[{"changed": {"fields": ["sections"]}}]	10	2
+54	2019-03-19 12:32:36.609826-07	2	Training object (2)	2	[{"changed": {"fields": ["sections"]}}]	10	2
+55	2019-03-19 12:32:49.981248-07	3	Training object (3)	2	[]	10	2
+56	2019-03-19 12:33:18.184349-07	4	Training object (4)	2	[{"changed": {"fields": ["sections"]}}]	10	2
+57	2019-03-19 14:22:32.647591-07	1	Activity object (1)	2	[{"changed": {"fields": ["name", "desc"]}}]	15	2
+58	2019-03-19 14:23:14.973965-07	2	Activity object (2)	2	[{"changed": {"fields": ["section", "name", "desc"]}}]	15	2
+59	2019-03-19 14:24:02.077492-07	3	Activity object (3)	2	[{"changed": {"fields": ["name", "desc"]}}]	15	2
+60	2019-03-19 14:24:39.05443-07	3	Activity object (3)	2	[]	15	2
+61	2019-03-19 14:25:12.453196-07	2	Activity object (2)	2	[]	15	2
+62	2019-03-19 14:27:00.313746-07	1	Activity object (1)	2	[]	15	2
+63	2019-03-19 14:27:36.952059-07	2	Activity object (2)	2	[{"changed": {"fields": ["order"]}}]	15	2
+64	2019-03-19 14:28:09.529028-07	3	Activity object (3)	2	[{"changed": {"fields": ["section", "order"]}}]	15	2
+65	2019-03-19 14:28:55.499884-07	4	Activity object (4)	1	[{"added": {}}]	15	2
+66	2019-03-19 14:29:09.749279-07	3	Activity object (3)	2	[{"changed": {"fields": ["order"]}}]	15	2
+67	2019-03-19 14:29:13.893239-07	3	Activity object (3)	2	[]	15	2
+68	2019-03-19 14:30:22.950666-07	5	Activity object (5)	1	[{"added": {}}]	15	2
+69	2019-03-19 14:31:02.661212-07	6	Activity object (6)	1	[{"added": {}}]	15	2
+70	2019-03-19 14:32:31.568081-07	7	Activity object (7)	1	[{"added": {}}]	15	2
+71	2019-03-19 14:34:09.636107-07	8	Activity object (8)	1	[{"added": {}}]	15	2
+72	2019-03-19 14:34:27.321396-07	9	Activity object (9)	1	[{"added": {}}]	15	2
+73	2019-03-19 14:35:17.121586-07	10	Activity object (10)	1	[{"added": {}}]	15	2
+74	2019-03-19 14:36:12.481478-07	11	Activity object (11)	1	[{"added": {}}]	15	2
+75	2019-03-19 14:37:30.577625-07	12	Activity object (12)	1	[{"added": {}}]	15	2
+76	2019-03-19 14:37:59.796408-07	13	Activity object (13)	1	[{"added": {}}]	15	2
+77	2019-03-19 14:38:48.380998-07	14	Activity object (14)	1	[{"added": {}}]	15	2
+78	2019-03-19 14:40:16.736283-07	15	Activity object (15)	1	[{"added": {}}]	15	2
+79	2019-03-19 14:40:44.350963-07	16	Activity object (16)	1	[{"added": {}}]	15	2
+80	2019-03-19 14:41:19.731514-07	17	Activity object (17)	1	[{"added": {}}]	15	2
+\.
+
+
+--
+-- TOC entry 3380 (class 0 OID 16407)
+-- Dependencies: 199
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	group
+3	auth	permission
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	easyLearnApp	training
+8	easyLearnApp	section
+9	easyLearn	section
+10	easyLearn	training
+11	easyLearn	user
+12	easyLearn	statussection
+13	easyLearn	statustraining
+14	easyLearn	statusactivity
+15	easyLearn	activity
+16	easyLearn	trainingprogress
+17	easyLearn	activityprogress
+18	easyLearn	sectionprogress
+\.
+
+
+--
+-- TOC entry 3378 (class 0 OID 16396)
+-- Dependencies: 197
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2019-03-15 18:59:51.953794-07
+2	auth	0001_initial	2019-03-15 18:59:52.019007-07
+3	admin	0001_initial	2019-03-15 18:59:52.043173-07
+4	admin	0002_logentry_remove_auto_add	2019-03-15 18:59:52.058793-07
+5	contenttypes	0002_remove_content_type_name	2019-03-15 18:59:52.083263-07
+6	auth	0002_alter_permission_name_max_length	2019-03-15 18:59:52.090484-07
+7	auth	0003_alter_user_email_max_length	2019-03-15 18:59:52.099941-07
+8	auth	0004_alter_user_username_opts	2019-03-15 18:59:52.110755-07
+9	auth	0005_alter_user_last_login_null	2019-03-15 18:59:52.120866-07
+10	auth	0006_require_contenttypes_0002	2019-03-15 18:59:52.122756-07
+11	auth	0007_alter_validators_add_error_messages	2019-03-15 18:59:52.133172-07
+12	auth	0008_alter_user_username_max_length	2019-03-15 18:59:52.148587-07
+13	sessions	0001_initial	2019-03-15 18:59:52.159279-07
+14	easyLearnApp	0001_initial	2019-03-15 19:29:22.624241-07
+15	easyLearnApp	0002_sections	2019-03-15 19:42:19.555632-07
+16	easyLearnApp	0003_auto_20190316_0243	2019-03-15 19:43:10.174553-07
+17	easyLearnApp	0004_auto_20190316_0244	2019-03-15 19:44:28.354817-07
+18	admin	0003_logentry_add_action_flag_choices	2019-03-16 18:50:58.021404-07
+19	auth	0009_alter_user_last_name_max_length	2019-03-16 18:50:58.052042-07
+20	easyLearn	0001_initial	2019-03-16 18:50:58.073763-07
+21	easyLearn	0002_auto_20190316_2238	2019-03-16 18:50:58.108235-07
+22	easyLearn	0003_auto_20190316_2325	2019-03-16 18:50:58.153151-07
+23	easyLearn	0004_auto_20190317_0007	2019-03-16 18:50:58.158287-07
+24	easyLearn	0005_auto_20190317_0008	2019-03-16 18:50:58.1645-07
+25	easyLearn	0006_auto_20190317_0021	2019-03-16 18:50:58.179398-07
+26	easyLearn	0007_auto_20190317_0024	2019-03-16 18:50:58.186394-07
+27	easyLearn	0008_auto_20190317_1638	2019-03-17 09:38:55.321796-07
+28	easyLearn	0009_auto_20190317_1837	2019-03-17 11:37:15.084846-07
+29	easyLearn	0008_statussection_statustraining	2019-03-17 20:08:49.640669-07
+30	easyLearn	0009_auto_20190317_1704	2019-03-17 20:08:49.657093-07
+31	easyLearn	0010_auto_20190317_1704	2019-03-17 20:08:49.665266-07
+32	easyLearn	0011_auto_20190317_1837	2019-03-17 20:08:49.686561-07
+33	easyLearn	0012_auto_20190317_1859	2019-03-17 20:08:49.721689-07
+34	easyLearn	0013_auto_20190317_1938	2019-03-17 20:08:49.74107-07
+35	easyLearn	0014_auto_20190318_0308	2019-03-17 20:08:49.755234-07
+36	easyLearn	0014_activity_order	2019-03-18 10:41:22.714124-07
+37	easyLearn	0015_section_order	2019-03-18 10:41:22.727007-07
+38	easyLearn	0016_auto_20190318_0621	2019-03-18 10:42:55.106719-07
+39	easyLearn	0017_activity_user	2019-03-18 10:42:55.126511-07
+40	easyLearn	0018_remove_activity_user	2019-03-18 10:42:55.13796-07
+41	easyLearn	0019_auto_20190318_0735	2019-03-18 10:42:55.181972-07
+42	easyLearn	0020_activityprogress_sectionprogress	2019-03-18 10:42:55.224638-07
+43	easyLearn	0021_auto_20190318_0746	2019-03-18 10:42:55.309902-07
+44	easyLearn	0022_auto_20190319_0605	2019-03-18 23:05:42.72975-07
+45	easyLearn	0023_auto_20190319_1616	2019-03-19 09:16:18.628236-07
+46	easyLearn	0024_remove_activity_image	2019-03-19 14:46:50.324068-07
+\.
+
+
+--
+-- TOC entry 3395 (class 0 OID 16550)
+-- Dependencies: 214
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+ew1ue972956eomha8vna278c9z2xc5hn	Y2Q2ZTJhZmE2ZDRlMmMyZTBhYmUyODQ0MTRmZDA4YWU3MTUyMThlMzp7Il9hdXRoX3VzZXJfaWQiOiIyIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJmODRkOTQ3YTdjOTUxMTg2NzhhODE1NjUzY2QzYWU1ZGNkMzE1NjNjIn0=	2019-03-30 18:58:00.56782-07
+fjvmb3find2bq7x7istgv8zzrhv7j532	ZGVmZWE2MGQ5Y2QzNjc3ZWI0NGEzODA2ODhhOTg5MjkxNmYyZjJjOTp7ImlkIjoxLCJmbmFtZSI6IklzYWJlbGwifQ==	2019-04-03 18:41:49.747027-07
+\.
+
+
+--
+-- TOC entry 3396 (class 0 OID 16694)
+-- Dependencies: 215
+-- Data for Name: easyLearnApp_section; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearnApp_section"  FROM stdin;
+\.
+
+
+--
+-- TOC entry 3397 (class 0 OID 16703)
+-- Dependencies: 216
+-- Data for Name: easyLearnApp_training; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearnApp_training"  FROM stdin;
+\.
+
+
+--
+-- TOC entry 3407 (class 0 OID 17143)
+-- Dependencies: 226
+-- Data for Name: easyLearn_activity; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_activity" (id, name, "desc", section_id, "order") FROM stdin;
+7	Don't stress you and others	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.	5	1
+8	Lead in the right direction	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	6	1
+9	Give to advice	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	6	2
+10	What point of view has the person	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.	7	1
+11	Does it make sense to respect that point	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.	7	2
+12	Have to taken the time for everyone	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.	8	1
+13	Is someone trying to find a conversation with you	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	8	2
+14	Don't show that you have the power	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	9	1
+1	Communication	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.	1	1
+2	Behaviour	Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.	2	1
+15	Show the achievement you received together	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	10	1
+5	Love and be happy with yourself	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	3	2
+6	Listen to the people around you	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	4	2
+4	Inspire other people	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	3	1
+3	Listen to the people around you	It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.	1	2
+16	Do you appreciate the help	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	10	2
+17	Plan social events	Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.No description added	10	3
+\.
+
+
+--
+-- TOC entry 3415 (class 0 OID 17257)
+-- Dependencies: 234
+-- Data for Name: easyLearn_activityprogress; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_activityprogress" (id, status, activity_id, user_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3399 (class 0 OID 17032)
+-- Dependencies: 218
+-- Data for Name: easyLearn_section; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_section" (id, name, "desc", image, progress, "order") FROM stdin;
+6	Give helpful tips	Give meaningful tips and impact. Learn how to listen and guide in the right direction.	media/helpfulTipSect.jpg	not started	6
+9	Be a mentor	Not only lead the person also be a good mentor and help the people around you.	media/mentorSect.jpg	not started	9
+1	Talk correctly	In this section train yourself to realize in which environment you're and how you should talk correctly.	media/talkSect.jpg	not started	1
+2	Which communication tool	We'll teach you what are the best communication tools to use. It is hard to understand the situation and how the other person feels. Which makes it difficult to understand which communication tool should be used in different situations.	media/cummunicatonToolSect.jpg	not started	2
+4	Listen	Dive into this section to get a better understand of how you can listen to other people.\r\nYou'll grow as a person but also a listener.	media/listenSect.jpg	not started	4
+3	Spirit	Have a good spirit around the day and pass it on to the people around you.\r\nBe a positive person and keep smiling.	media/spiritSect.jpg	not started	3
+5	Be calm	Start this section to be calmer. Relax and let your soul be free.	media/calmSect.jpg	not started	5
+7	Undertand & Respect	Dive into other peoples perspective and teach how you understand and respect other humans situations. Everyone is coming from somewhere else and they might have a different view of point.\r\nStart this section to get a better understanding and respect.	media/understandARespectSect.jpg	not started	7
+8	Take time	It is very important to take time for everyone. That's why it is important to keep track of your own time.\r\nDon't let people around you make them feel, that you don't have time for them. Take your time for everyone.	media/timeSect.jpg	not started	8
+10	Proud	Be proud of what you achieved and let people around you know that you're.\r\nThey had a huge impact on what you achieved together.	media/proudSect.jpg	not started	10
+\.
+
+
+--
+-- TOC entry 3417 (class 0 OID 17265)
+-- Dependencies: 236
+-- Data for Name: easyLearn_sectionprogress; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_sectionprogress" (id, status, section_id, user_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3401 (class 0 OID 17040)
+-- Dependencies: 220
+-- Data for Name: easyLearn_training; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_training" (id, name, "desc", image) FROM stdin;
+1	Cognitive Behavioral Therapy	Dive deeper with the behavior training to handle difficult situations perfectly.\r\nStand out with your behavior and be a positive vibe for all humans around you.\r\nUnderstand the technique to behave correctly.	media/behaviorTraining.png
+2	New Parenting	Start this training to be a good parent. Place yourself in the situation from a kid and understand the situation but also reactions.\r\nGive your kid a better future by showing them the big picture.	media/parentingTraining.jpg
+3	Leadership Development Program	Learn to become a good leader. Be a mentor for your employees and be a role model for others.\r\nBe a mentor and lead them in the right direction.	media/leadershipTraining_tcgDuI4.jpg
+4	Mindful Communication	With our Program, Mindful Communication train you how you communicate more professional and understandable. But also which communications tools to use for different situations.\r\nNot in every situation, you should send an email to the person - there are other communication tools what might be better for severe cases.\r\n\r\nForget the stress outside and just focus on your conversation. \r\nYou'll improve your communication or conversations business but also private related to your partner.	media/communicationTraining.jpg
+\.
+
+
+--
+-- TOC entry 3403 (class 0 OID 17063)
+-- Dependencies: 222
+-- Data for Name: easyLearn_training_sections; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_training_sections" (id, training_id, section_id) FROM stdin;
+5	3	1
+7	1	3
+8	4	3
+9	3	2
+10	3	3
+11	3	4
+12	3	5
+13	3	6
+14	3	7
+15	3	8
+16	3	9
+17	3	10
+21	4	4
+25	2	5
+27	1	4
+28	1	5
+30	1	7
+31	1	8
+32	1	9
+33	1	10
+34	1	1
+35	2	3
+36	2	4
+37	2	6
+38	4	1
+39	4	2
+\.
+
+
+--
+-- TOC entry 3413 (class 0 OID 17223)
+-- Dependencies: 232
+-- Data for Name: easyLearn_training_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_training_user" (id, training_id, user_id) FROM stdin;
+1	4	1
+2	3	1
+3	2	1
+4	1	1
+\.
+
+
+--
+-- TOC entry 3405 (class 0 OID 17093)
+-- Dependencies: 224
+-- Data for Name: easyLearn_training_users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_training_users" (id, training_id, user_id) FROM stdin;
+1	2	1
+2	3	1
+\.
+
+
+--
+-- TOC entry 3411 (class 0 OID 17215)
+-- Dependencies: 230
+-- Data for Name: easyLearn_trainingprogress; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_trainingprogress" (id, status, training_id, user_id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 3409 (class 0 OID 17185)
+-- Dependencies: 228
+-- Data for Name: easyLearn_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."easyLearn_user" (id, fname, lname, email, password, created_at, updated_at) FROM stdin;
+1	Isabell	Frischmann	isabell.frischmann@gmail.com	$2a$12$F51Sen5cT./X2ftyruF22.VAxM4CxLNlgeTtmO5oh5hC6/55ogIUO	2019-03-18 10:43:54.95638-07	2019-03-18 10:43:54.963356-07
+2	Isabell2	Frischmann2	isabell2.frischmann2@gmail.com	$2a$12$q/ZB2aPLkbrlTpfeFw5DyO6RKFP7mxLx3b3jjkLTatUwtMhySYfna	2019-03-20 01:00:08.355704-07	2019-03-20 01:00:08.381716-07
+\.
+
+
+--
+-- TOC entry 3443 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- TOC entry 3444 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 3445 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 73, true);
+
+
+--
+-- TOC entry 3446 (class 0 OID 0)
+-- Dependencies: 208
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- TOC entry 3447 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 2, true);
+
+
+--
+-- TOC entry 3448 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- TOC entry 3449 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 80, true);
+
+
+--
+-- TOC entry 3450 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 18, true);
+
+
+--
+-- TOC entry 3451 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 46, true);
+
+
+--
+-- TOC entry 3452 (class 0 OID 0)
+-- Dependencies: 233
+-- Name: easyLearn_activityprogress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_activityprogress_id_seq"', 176, true);
+
+
+--
+-- TOC entry 3453 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: easyLearn_section_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_section_id_seq"', 10, true);
+
+
+--
+-- TOC entry 3454 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: easyLearn_sectionactivity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_sectionactivity_id_seq"', 17, true);
+
+
+--
+-- TOC entry 3455 (class 0 OID 0)
+-- Dependencies: 235
+-- Name: easyLearn_sectionprogress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_sectionprogress_id_seq"', 89, true);
+
+
+--
+-- TOC entry 3456 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: easyLearn_training_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_training_id_seq"', 4, true);
+
+
+--
+-- TOC entry 3457 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: easyLearn_training_sections_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_training_sections_id_seq"', 39, true);
+
+
+--
+-- TOC entry 3458 (class 0 OID 0)
+-- Dependencies: 231
+-- Name: easyLearn_training_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_training_user_id_seq"', 4, true);
+
+
+--
+-- TOC entry 3459 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: easyLearn_training_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_training_users_id_seq"', 2, true);
+
+
+--
+-- TOC entry 3460 (class 0 OID 0)
+-- Dependencies: 229
+-- Name: easyLearn_trainingprogress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_trainingprogress_id_seq"', 42, true);
+
+
+--
+-- TOC entry 3461 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: easyLearn_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."easyLearn_user_id_seq"', 2, true);
+
+
+--
+-- TOC entry 3162 (class 2606 OID 16432)
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- TOC entry 3167 (class 2606 OID 16487)
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- TOC entry 3170 (class 2606 OID 16440)
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3164 (class 2606 OID 16430)
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3157 (class 2606 OID 16473)
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- TOC entry 3159 (class 2606 OID 16422)
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3178 (class 2606 OID 16458)
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3181 (class 2606 OID 16502)
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- TOC entry 3172 (class 2606 OID 16448)
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3184 (class 2606 OID 16466)
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3187 (class 2606 OID 16516)
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- TOC entry 3175 (class 2606 OID 16545)
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 3190 (class 2606 OID 16530)
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3152 (class 2606 OID 16414)
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- TOC entry 3154 (class 2606 OID 16412)
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3150 (class 2606 OID 16404)
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3194 (class 2606 OID 16557)
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- TOC entry 3229 (class 2606 OID 17262)
+-- Name: easyLearn_activityprogress easyLearn_activityprogress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activityprogress"
+    ADD CONSTRAINT "easyLearn_activityprogress_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3197 (class 2606 OID 17037)
+-- Name: easyLearn_section easyLearn_section_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_section"
+    ADD CONSTRAINT "easyLearn_section_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3213 (class 2606 OID 17151)
+-- Name: easyLearn_activity easyLearn_sectionactivity_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activity"
+    ADD CONSTRAINT "easyLearn_sectionactivity_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3232 (class 2606 OID 17270)
+-- Name: easyLearn_sectionprogress easyLearn_sectionprogress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_sectionprogress"
+    ADD CONSTRAINT "easyLearn_sectionprogress_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3199 (class 2606 OID 17048)
+-- Name: easyLearn_training easyLearn_training_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training"
+    ADD CONSTRAINT "easyLearn_training_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3201 (class 2606 OID 17080)
+-- Name: easyLearn_training_sections easyLearn_training_se_training_id_section_id_8cc6911a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_sections"
+    ADD CONSTRAINT "easyLearn_training_se_training_id_section_id_8cc6911a_uniq" UNIQUE (training_id, section_id);
+
+
+--
+-- TOC entry 3203 (class 2606 OID 17068)
+-- Name: easyLearn_training_sections easyLearn_training_sections_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_sections"
+    ADD CONSTRAINT "easyLearn_training_sections_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3222 (class 2606 OID 17228)
+-- Name: easyLearn_training_user easyLearn_training_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_user"
+    ADD CONSTRAINT "easyLearn_training_user_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3225 (class 2606 OID 17240)
+-- Name: easyLearn_training_user easyLearn_training_user_training_id_user_id_f712988a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_user"
+    ADD CONSTRAINT "easyLearn_training_user_training_id_user_id_f712988a_uniq" UNIQUE (training_id, user_id);
+
+
+--
+-- TOC entry 3207 (class 2606 OID 17098)
+-- Name: easyLearn_training_users easyLearn_training_users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_users"
+    ADD CONSTRAINT "easyLearn_training_users_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3210 (class 2606 OID 17110)
+-- Name: easyLearn_training_users easyLearn_training_users_training_id_user_id_b00e4bf7_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_users"
+    ADD CONSTRAINT "easyLearn_training_users_training_id_user_id_b00e4bf7_uniq" UNIQUE (training_id, user_id);
+
+
+--
+-- TOC entry 3218 (class 2606 OID 17220)
+-- Name: easyLearn_trainingprogress easyLearn_trainingprogress_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_trainingprogress"
+    ADD CONSTRAINT "easyLearn_trainingprogress_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3216 (class 2606 OID 17190)
+-- Name: easyLearn_user easyLearn_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_user"
+    ADD CONSTRAINT "easyLearn_user_pkey" PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3160 (class 1259 OID 16475)
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- TOC entry 3165 (class 1259 OID 16488)
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- TOC entry 3168 (class 1259 OID 16489)
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 3155 (class 1259 OID 16474)
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- TOC entry 3176 (class 1259 OID 16504)
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- TOC entry 3179 (class 1259 OID 16503)
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- TOC entry 3182 (class 1259 OID 16518)
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- TOC entry 3185 (class 1259 OID 16517)
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- TOC entry 3173 (class 1259 OID 16546)
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- TOC entry 3188 (class 1259 OID 16541)
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- TOC entry 3191 (class 1259 OID 16542)
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- TOC entry 3192 (class 1259 OID 16559)
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- TOC entry 3195 (class 1259 OID 16558)
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- TOC entry 3227 (class 1259 OID 17281)
+-- Name: easyLearn_activityprogress_activity_id_id_e5d54d87; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_activityprogress_activity_id_id_e5d54d87" ON public."easyLearn_activityprogress" USING btree (activity_id);
+
+
+--
+-- TOC entry 3230 (class 1259 OID 17282)
+-- Name: easyLearn_activityprogress_user_id_id_7c831293; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_activityprogress_user_id_id_7c831293" ON public."easyLearn_activityprogress" USING btree (user_id);
+
+
+--
+-- TOC entry 3214 (class 1259 OID 17157)
+-- Name: easyLearn_sectionactivity_section_id_a6a238dd; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_sectionactivity_section_id_a6a238dd" ON public."easyLearn_activity" USING btree (section_id);
+
+
+--
+-- TOC entry 3233 (class 1259 OID 17293)
+-- Name: easyLearn_sectionprogress_section_id_id_157bd2b7; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_sectionprogress_section_id_id_157bd2b7" ON public."easyLearn_sectionprogress" USING btree (section_id);
+
+
+--
+-- TOC entry 3234 (class 1259 OID 17294)
+-- Name: easyLearn_sectionprogress_user_id_id_f2acba18; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_sectionprogress_user_id_id_f2acba18" ON public."easyLearn_sectionprogress" USING btree (user_id);
+
+
+--
+-- TOC entry 3204 (class 1259 OID 17082)
+-- Name: easyLearn_training_sections_section_id_b3d46e0a; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_training_sections_section_id_b3d46e0a" ON public."easyLearn_training_sections" USING btree (section_id);
+
+
+--
+-- TOC entry 3205 (class 1259 OID 17081)
+-- Name: easyLearn_training_sections_training_id_1ed6743b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_training_sections_training_id_1ed6743b" ON public."easyLearn_training_sections" USING btree (training_id);
+
+
+--
+-- TOC entry 3223 (class 1259 OID 17241)
+-- Name: easyLearn_training_user_training_id_d1fec3e8; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_training_user_training_id_d1fec3e8" ON public."easyLearn_training_user" USING btree (training_id);
+
+
+--
+-- TOC entry 3226 (class 1259 OID 17242)
+-- Name: easyLearn_training_user_user_id_b8fc084e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_training_user_user_id_b8fc084e" ON public."easyLearn_training_user" USING btree (user_id);
+
+
+--
+-- TOC entry 3208 (class 1259 OID 17111)
+-- Name: easyLearn_training_users_training_id_11099b8d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_training_users_training_id_11099b8d" ON public."easyLearn_training_users" USING btree (training_id);
+
+
+--
+-- TOC entry 3211 (class 1259 OID 17112)
+-- Name: easyLearn_training_users_user_id_3fe79a55; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_training_users_user_id_3fe79a55" ON public."easyLearn_training_users" USING btree (user_id);
+
+
+--
+-- TOC entry 3219 (class 1259 OID 17243)
+-- Name: easyLearn_trainingprogress_training_id_id_7c63aa06; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_trainingprogress_training_id_id_7c63aa06" ON public."easyLearn_trainingprogress" USING btree (training_id);
+
+
+--
+-- TOC entry 3220 (class 1259 OID 17249)
+-- Name: easyLearn_trainingprogress_user_id_id_1b6eebdc; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX "easyLearn_trainingprogress_user_id_id_1b6eebdc" ON public."easyLearn_trainingprogress" USING btree (user_id);
+
+
+--
+-- TOC entry 3237 (class 2606 OID 16481)
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3236 (class 2606 OID 16476)
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3235 (class 2606 OID 16467)
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3239 (class 2606 OID 16496)
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3238 (class 2606 OID 16491)
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3241 (class 2606 OID 16510)
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3240 (class 2606 OID 16505)
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3242 (class 2606 OID 16531)
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3243 (class 2606 OID 16536)
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3252 (class 2606 OID 17295)
+-- Name: easyLearn_activityprogress easyLearn_activit_activity_id_b512f6ca_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activityprogress"
+    ADD CONSTRAINT "easyLearn_activit_activity_id_b512f6ca_fk_modernHea" FOREIGN KEY (activity_id) REFERENCES public."easyLearn_activity"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3253 (class 2606 OID 17300)
+-- Name: easyLearn_activityprogress easyLearn_activit_user_id_b4544b02_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activityprogress"
+    ADD CONSTRAINT "easyLearn_activit_user_id_b4544b02_fk_modernHea" FOREIGN KEY (user_id) REFERENCES public."easyLearn_user"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3254 (class 2606 OID 17305)
+-- Name: easyLearn_sectionprogress easyLearn_section_section_id_14021456_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_sectionprogress"
+    ADD CONSTRAINT "easyLearn_section_section_id_14021456_fk_modernHea" FOREIGN KEY (section_id) REFERENCES public."easyLearn_section"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3247 (class 2606 OID 17152)
+-- Name: easyLearn_activity easyLearn_section_section_id_a6a238dd_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_activity"
+    ADD CONSTRAINT "easyLearn_section_section_id_a6a238dd_fk_modernHea" FOREIGN KEY (section_id) REFERENCES public."easyLearn_section"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3255 (class 2606 OID 17310)
+-- Name: easyLearn_sectionprogress easyLearn_section_user_id_33e107d4_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_sectionprogress"
+    ADD CONSTRAINT "easyLearn_section_user_id_33e107d4_fk_modernHea" FOREIGN KEY (user_id) REFERENCES public."easyLearn_user"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3245 (class 2606 OID 17074)
+-- Name: easyLearn_training_sections easyLearn_trainin_section_id_b3d46e0a_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_sections"
+    ADD CONSTRAINT "easyLearn_trainin_section_id_b3d46e0a_fk_modernHea" FOREIGN KEY (section_id) REFERENCES public."easyLearn_section"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3248 (class 2606 OID 17315)
+-- Name: easyLearn_trainingprogress easyLearn_trainin_training_id_0cabb2b8_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_trainingprogress"
+    ADD CONSTRAINT "easyLearn_trainin_training_id_0cabb2b8_fk_modernHea" FOREIGN KEY (training_id) REFERENCES public."easyLearn_training"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3246 (class 2606 OID 17099)
+-- Name: easyLearn_training_users easyLearn_trainin_training_id_11099b8d_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_users"
+    ADD CONSTRAINT "easyLearn_trainin_training_id_11099b8d_fk_modernHea" FOREIGN KEY (training_id) REFERENCES public."easyLearn_training"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3244 (class 2606 OID 17069)
+-- Name: easyLearn_training_sections easyLearn_trainin_training_id_1ed6743b_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_sections"
+    ADD CONSTRAINT "easyLearn_trainin_training_id_1ed6743b_fk_modernHea" FOREIGN KEY (training_id) REFERENCES public."easyLearn_training"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3251 (class 2606 OID 17340)
+-- Name: easyLearn_training_user easyLearn_trainin_training_id_d1fec3e8_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_user"
+    ADD CONSTRAINT "easyLearn_trainin_training_id_d1fec3e8_fk_modernHea" FOREIGN KEY (training_id) REFERENCES public."easyLearn_training"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3250 (class 2606 OID 17335)
+-- Name: easyLearn_training_user easyLearn_trainin_user_id_b8fc084e_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_training_user"
+    ADD CONSTRAINT "easyLearn_trainin_user_id_b8fc084e_fk_modernHea" FOREIGN KEY (user_id) REFERENCES public."easyLearn_user"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- TOC entry 3249 (class 2606 OID 17320)
+-- Name: easyLearn_trainingprogress easyLearn_trainin_user_id_f5a1b5c8_fk_modernHea; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."easyLearn_trainingprogress"
+    ADD CONSTRAINT "easyLearn_trainin_user_id_f5a1b5c8_fk_modernHea" FOREIGN KEY (user_id) REFERENCES public."easyLearn_user"(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+-- Completed on 2019-03-20 18:59:51 PDT
+
+--
+-- PostgreSQL database dump complete
+--
+
+\connect postgres
+
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.2
+-- Dumped by pg_dump version 11.2
+
+-- Started on 2019-03-20 18:59:51 PDT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 1 (class 3079 OID 16384)
+-- Name: adminpack; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 3123 (class 0 OID 0)
+-- Dependencies: 1
+-- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
+
+
+-- Completed on 2019-03-20 18:59:51 PDT
+
+--
+-- PostgreSQL database dump complete
+--
+
+-- Completed on 2019-03-20 18:59:51 PDT
+
+--
+-- PostgreSQL database cluster dump complete
+--
+

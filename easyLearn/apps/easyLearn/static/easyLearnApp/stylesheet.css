@@ -1,0 +1,94 @@
+body {
+    background-color: #999;
+}
+
+b {
+    color: #357E89;
+}
+
+.headerDesc {
+    display: inline-block;
+    color: #357E89;
+}
+
+.centered {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#a-nav {
+    color: #357E89;
+    background-color: lightgrey;
+    font-weight: 900;
+    padding: 5px 5px 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+#logout {
+    color: #357E89;
+    background-color: lightgrey;
+    padding: 5px 5px 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-left: 1000px;
+    margin-top: 30px;
+}
+
+#finish_activity {
+    color: #666;
+    background-color: lightskyblue;
+    font-weight: 900;
+    padding: 5px 5px 5px 10px;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.header {
+    position: relative;
+    display: inline-block;
+    top: 10px;
+    margin-bottom: 25px;
+}
+
+.training-module {
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 25px;
+}
+
+.trainingImg {
+    width: 250px;
+    height: 250px;
+    display: inline-block;
+}
+
+.trainingDetails {
+    display: inline-block;
+    width: 600px;
+}
+
+#progress {
+    background-color: #999;
+    font-size: 8px;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    width: 60px;
+    padding: 5px;
+}
+
+#title a {
+    color: #357E89;
+    float: left;
+    font-weight: 900;
+    padding-right: 10px;
+}
+
+#part {
+    color: #999;
+    float: inline-start;
+}

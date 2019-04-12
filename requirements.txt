@@ -1,0 +1,16 @@
+bcrypt==3.1.6
+cffi==1.12.2
+configparser==3.5.0
+enum34==1.1.6
+flake8==3.5.0
+mccabe==0.6.1
+Pillow==5.4.1
+psycopg2==2.7.7
+py-bcrypt==0.4
+pycodestyle==2.3.1
+pycparser==2.19
+pyflakes==1.6.0
+pytz==2018.9
+six==1.12.0
+Django==2.1.7
+virtualenv==16.4.3

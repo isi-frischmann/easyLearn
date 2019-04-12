@@ -1,0 +1,111 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww33400\viewh19580\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs32 \cf0 I created a Python application (while using Django as a framework) for easyLearn which allows users to register and log in again, while keeping track of their training progress history. \
+\
+Once the user is logged in, I provide a short welcome page with all the training courses attached. If the user clicks on one of the training it automatically changes the status to "In Progress" and keeps that status until all the attached Sections to this training are completed. Sections get completed when their connected Activities are all completed too. I implemented Ajax (loading in runtime) to refresh the status automatically, so no manual refresh necessary. \
+\
+Let me explain about the Structure, the Code and the Data Structures.\
+\
+
+\b The structure of the application has five levels:\
+
+\b0 1- Login/Registration\
+1- 2- Dashboard (Welcome and all the training modules)\
+1- 2- 3- Training Detail (Intro to a training + Sections)\
+1- 2- 3- 4- Sections Detail (Intro to a section + Activities)\
+1- 2- 3- 4- 5- Activities (Activity associated with a specific section)\
+\
+As Django provides a very convenient template solution (blocks), I used that feature in my application which allows me to make changes easier/faster, avoid errors, and have consistency in code and design.\
+\
+
+\b Login/Registration:\
+
+\b0 I thought that it is essential to have a Login and Registration feature to allow users to keep track of their progress and not just save the progress in a session. Because of security reasons, I created some additional Login and Register validations such as:\
+- The password needs to have >8 characters.\
+- Password and Confirmation Password needs to match.\
+- Firstname and Lastname need both more then 2 characters.\
+\
+I, of course, check if the email already exists to avoid duplications in our DB. \
+\
+
+\b Data Structure:\
+
+\b0 I created eleven different classes:\
+
+\i\b User and content classes:
+\i0\b0 \
+- UserManager (the primary purpose is the validation for login/registration)\
+- User (Table which saves the user data)\
+- Training (Table with all the content information for our training topics)\
+- Section (Table which contains all the content for our sections)\
+- Activity (Table with activity content)\
+\
+
+\i\b Progress Tables:\
+
+\i0\b0 - TrainingProgress keep track of the training progress per user\
+- SectionProgress keep track of the section progress per user\
+- ActivityProgress keep track of the section progress per user\
+\
+
+\b How did I connect the tables and why did I choose this way?\
+
+\b0 It was important to me that a user can start multiple pieces of training at the same time without a need to finish the previous one. Same occurs to sections and actions, and that's one of the main reason why I created three Progress tables. In regards to this, I also thought that sometimes it's useful to reuse some sections in other training components but don't request the user to finish these components again. So a ManyToMany relationship from the training table to the section table made the most sense to me. Another ManyToMany relationship was used from User to Trainings as many users can have many trainings and many trainings can be started from many users. The Activities, however, can only belong to one section and that's why I have a OneToMany relationship there.\
+\
+The three "Progress" tables keep track of the different statuses. If a user opens a training, section or activity, the status is set to  "In Progress."\
+An activity is getting "Completed" whenever the user clicks "Continue" or finish the last activity. There is a check if all activities are in the "Completed" state and just then, the status of the section will change from \'93In Progress\'94 to \'93Completed\'94. Otherwise, I highlight the missing action to the user and allow them to go back to finish the missing activities. Same occurs with Training. The status just changes to "Completed" once all the sections are completed (Again, these sections can be inherited if the user already finished that specific section in another training). All three progress classes are connected with the User class to have user-specific statuses. \
+\
+
+\b Let me explain a little bit about the user flow and give some insights about the code itself. \
+
+\b0 \
+After the user logged in successfully, I redirect them to the dashboard.html where I list all training from our database including Title, Image, Description and progress Status. The method for this page is called "showDashboard" and queries all the training topics. \
+\
+When a user clicks on "Info" , on the picture, or the title, I redirect them to the trainings_detail.html, where I query Title, Image, Description, Status, and associated activities (Title, Description, Image, Status). \
+For UX reasons, I count the number of sections in that page to show the user the size of this training so they can decide how much time they have and if it's appropriated to start that training at that time. The user can see how many sections he or she has to complete to complete the training, but also sees how many sections are already "In Progress," "Completed" or not even started.\
+The sections are ordered by the "order" column in the section table. Same occurs to the activity table as well as the training table. This allows the user to follow our recommended order. \
+When a user clicks on the training, or section picture, the status will be updated to either "In Progress" if it's the first visit or "Completed." if the course, section or activity is done.\
+When the user is on the last activity on a section but did not complete all the previous one, we link them to a page which explains that at least one activity wasn't completed successfully. We allow them to go back to the section overview and see which one is missing. The status of the section gets not updated and keeps "In Progress" in this case until the user finishes all the activities. The same logic occurs between the training and section relationship. I don't update the status to "Complete" until all the sub-components are completed. \
+\
+If the user finishes all the activities though, I give them a clap, and I'm telling them that they did well and just completed everything in this section. I also try to get this more personal and show the name of the user in the headline. \
+\
+On all pages or steps, the user is able to go back to the main page but keeps logged in. The user can always go just one step back (e.g. Activities).  But the user is also able to go back to the training overview, section, and activity overview. This was important to me as we have five different levels on this app and I don't want the user to make unnecessary clicks (UX).\
+On the header, I show the logout button on each page which allows the user to logout from the application.\
+\
+Below, I also want to highlight some of the improvements I would make if I would have more time or if I would start again. I also had to get familiar with Python and Django again as I was using another language in the previous months. So during the development, I realized how I could make the code more clear and more efficiently next time but didn't have time left.\
+\
+
+\b Improvements / Changes I would make next time:\
+
+\b0 - Name Routing: I'd use name routing next time\
+- Comments: Include more comments to make the code clear to everyone\
+- OOP: I would use OOP more next time. \
+\
+I'm happy with my work and really enjoyed working on this assignment. \
+I hope you are too and would love to get positive feedback!\
+\
+
+\b How to run the application?\
+
+\b0 I provide a folder which includes the following:\
+- Virtual Environment (djangoEnv)\
+- PostgreSQL Database dump file to create the database (DB)\
+- Django Application (easyLearn)\
+- Requirements for the Virtual Env (requirements.txt)\
+\
+Please use the virtual environment and install all the required packages. \
+Then make sure your PostgreSQL server is running to create a easyLearn database which you will use to create all the needed tables including content from the attached file in the DB folder.\
+Use your terminal to enter the easyLearn folder where you can see the managed.py file and run the application (python3 managed.py run server)\
+\
+\
+\
+\
+\
+\
+\
+}

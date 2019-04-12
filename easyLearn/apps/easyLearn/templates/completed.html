@@ -1,0 +1,17 @@
+{% extends 'baseLayout.html' %}
+
+
+{% block content %}
+    <h1>Congratulations {{users.fname}} &#128079</h1><br>
+    <p>You've completed all Actions.</p><br>
+
+    <p>Tell us how you liked the training</p>
+    <h5>&#11088 &#11088 &#11088 &#11088 &#11088</h5>
+
+    <p>For your personal growth go back to main page and select another training, <br> to improve your wellbeing.</p>
+    <h5>Your Modern Health Team</h5><br><br>
+    {% for training in trainings %}
+        <a href="/trainings/{{training.id}}" id="a-nav">Back to the Training Sections</a>
+    {% endfor %}
+    <a href="/trainings" id="a-nav">HOME</a>
+{% endblock %}
